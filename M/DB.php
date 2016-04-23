@@ -26,5 +26,8 @@ class DB{
 	public static function prepare($sql){
 		return self::getInstance()->prepare($sql);
 	}
+        public static function ultimoid(){
+            return self::getInstance()->lastInsertId();
+        }
 
 }

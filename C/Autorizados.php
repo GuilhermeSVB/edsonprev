@@ -44,12 +44,12 @@ class Autorizados extends Crud{
 	
 	public function insert(){
 
-		$sql  = 'INSERT INTO '.$this->table.'(nome,telefone1,telefone2,senha,foto)';
+                $sql  = 'INSERT INTO '.$this->table.'(nome,telefone1,telefone2,senha,foto)';
                 $sql .= "VALUES (:nome,:telefone1,:telefone2,:senha, :foto)";
-		$stmt = DB::prepare($sql);
+	$stmt = DB::prepare($sql);
                 $stmt->bindParam(':nome', $this->nome);
-		$stmt->bindParam(':telefone1', $this->telefone1);
-		$stmt->bindParam(':telefone2', $this->telefone2);
+	$stmt->bindParam(':telefone1', $this->telefone1);
+	$stmt->bindParam(':telefone2', $this->telefone2);
              
                ;
                 $stmt->bindParam(':senha', $this->senha);

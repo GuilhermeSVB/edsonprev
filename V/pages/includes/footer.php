@@ -6,7 +6,7 @@
 
     <!-- Metis Menu Plugin JavaScript -->
     <script src="../bower_components/metisMenu/dist/metisMenu.min.js"></script>
-    <script src="../../php/script.js"></script>
+    <!--<script src="../../php/script.js"></script>
 
     <!-- Morris Charts JavaScript -->
     

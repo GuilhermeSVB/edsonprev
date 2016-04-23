@@ -45,7 +45,7 @@ class Autorizacao extends Crud{
 	
 	public function insert(){
 
-		$sql  = 'INSERT INTO '.$this->table.'(id_autorizado,cod_cliente,status,relacao,inicio,fim)';
+                $sql  = 'INSERT INTO '.$this->table.'(id_autorizado,cod_cliente,status,relacao,inicio,fim)';
                 $sql .= "VALUES (:id_autorizado,:cod_cliente,:status,:relacao,:inicio,:fim)";
 		$stmt = DB::prepare($sql);
                 $stmt->bindParam(':id_autorizado', $this->id_autorizado);

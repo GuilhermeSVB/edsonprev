@@ -23,7 +23,7 @@
                               <img src="../img/load.gif" />
                         </div>
                         <div  id="painel" class="panel-body">
-                            <form class="form-horizontal" name="cadastro" method="post" action="../../php/crud.php">
+                            <form class="form-horizontal" name="cadastro" method="post" action="../../php/teste.php">
                                 <fieldset>
                                 <!-- Form Name -->
                                 <legend>Dados Pessoais</legend>
@@ -203,6 +203,16 @@
                                     </div>
                                   </div>
                                 </div>  
+                                <div class="form-group">
+                                  <label class="col-md-2 control-label" for="cep">CEP</label>
+                                  <div class="col-md-8">
+                                    <div class="input-group">
+                                      <span class="input-group-addon"><i class="fa fa-map-signs" aria-hidden="true"></i></span>
+                                      <input id="bairro" name="cep" class="form-control cep" placeholder="" type="text">
+                                    </div>
+                                  </div>
+                                </div> 
+                               
                                <div class="form-group">
                                   <label class="col-md-2 control-label" for="estado">Estado e Cidade</label>
                                   <div class="col-md-8">
@@ -216,12 +226,19 @@
                                             </script>
                                     </select>
                                   </div>
-                                </div>                               
+                                </div>  
+                                  <!-- Textarea -->
+                                <div class="form-group">
+                                  <label class="col-md-2 control-label" for="complemento">Complemento </label>
+                                  <div class="col-md-8">                     
+                                    <textarea class="form-control " id="complemento" name="complemento"></textarea>
+                                  </div>
+                                </div>
                                 <!-- Button -->
                                 <div class="form-group">
                                   <label class="col-md-4 control-label" for="salvar"></label>
                                   <div class="col-md-4">
-                                      <button id="salvar" type="button" name="salvar" class="btn btn-lg btn-block btn-primary j_button">Salvar</button>
+                                      <button id="salvar" type="submit" name="salvar" class="btn btn-lg btn-block btn-primary j_button">Salvar</button>
                                   </div>
                                 </div>
                             </fieldset>

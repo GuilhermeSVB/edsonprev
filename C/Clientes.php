@@ -1,6 +1,6 @@
 <?php
 
-require_once 'Crud.php';
+require_once '../C/Crud.php';
 
 class Clientes extends Crud {
 
@@ -19,8 +19,17 @@ class Clientes extends Crud {
     private $telefone2;
     private $telefone3;
     private $data_cadastro;
+    private $ultimoId;
     
-    function getNome() {
+    function getUltimoId() {
+        return $this->ultimoId;
+    }
+
+    function setUltimoId($ultimoId) {
+        $this->ultimoId = $ultimoId;
+    }
+
+        function getNome() {
         return $this->nome;
     }
 
@@ -125,45 +134,31 @@ class Clientes extends Crud {
     }
 
     
-    public function insert($c) {
+    public function insert() {
         
-        $this->setNome($c['nome'] = mysqli_real_escape_string($conexao,$_POST['nome']));
-        $this->setCpf($c['cpf'] = mysqli_real_escape_string($conexao,$_POST['cpf']));
-        $this->setNascimento($c['nascimento'] = mysqli_real_escape_string($conexao,$_POST['nascimento']));
-        $this->setCivil($c['civil'] = mysqli_real_escape_string($conexao,$_POST['civil']));
-        $this->setSexo($c['sexo'] = mysqli_real_escape_string($conexao,$_POST['sexo']));
-        $this->setObs($c['obs'] = mysqli_real_escape_string($conexao,$_POST['Obs']));
-        $this->setEmail($c['email'] = mysqli_real_escape_string($conexao,$_POST['email']));
-        $this->setTelefone1($c['telefone1'] = mysqli_real_escape_string($conexao,$_POST['residencial']));
-        $this->setTelefone2($c['telefone2'] = mysqli_real_escape_string($conexao,$_POST['comercial']));
-        $this->setTelefone3($c['telefone3'] = mysqli_real_escape_string($conexao,$_POST['celular']));
-        $this->setData_cadastro($c['data_cadastro'] = date('Y-m-d H:i:s'));
-        $this->setNascimento($c['nascimento']= implode("-",array_reverse(explode("/",$c['nascimento']))));
-         if (in_array('', $c)){
-             return "2";
-        }  else {
-            $campos = implode(',', array_keys($c));
-            $values = "'".implode("', '", array_values($c))."'";
-            $query = "INSERT INTO paciente (".$campos.") VALUES (".$values.")";
-            $st= mysqli_query($conexao, $query) or die(mysqli_error($conexao));
-            if(!empty($st)){
-                //print_r($d);
-                $id= mysqli_insert_id($conexao);
-                $d['Paciente_idPaciente'] = $id;
-                $campos = utf8_decode(implode(',', array_keys($d)));
-                $values = utf8_decode("'".implode("', '", array_values($d))."'");
-                
-               $query = "INSERT INTO endereco (".$campos.") VALUES (".$values.")";
-               $st= mysqli_query($conexao, $query) or die(mysqli_error($conexao));
-               echo 'Cliente <strong>'.$c['nome']. '</strong> cadastrado com sucesso';
-            }else{
-                echo '42';
-        
-            }
-        }
-    }
+        $sql  = 'INSERT INTO '.$this->table.'(`nome`, `cpf`, `nascimento`, `civil`, `sexo`, `email`, `obs`, `telefone1`, `telefone2`, `telefone3`, `data_cadastro`)';
+        $sql .= "VALUES (:nome,:cpf,:nascimento,:civil,:sexo,:email,:obs,:telefone1,:telefone2,:telefone3,:data_cadastro)";
+        $stmt = DB::prepare($sql);
+        $stmt->bindParam(':nome', $this->nome);
+        $stmt->bindParam(':cpf', $this->cpf);
+        $stmt->bindParam(':nascimento', $this->nascimento);
+        $stmt->bindParam(':civil', $this->civil);
+        $stmt->bindParam(':sexo', $this->sexo);
+        $stmt->bindParam(':email', $this->email);
+        $stmt->bindParam(':obs', $this->obs);
+        $stmt->bindParam(':telefone1', $this->telefone1);
+        $stmt->bindParam(':telefone2', $this->telefone2);
+        $stmt->bindParam(':telefone3', $this->telefone3);
+        $stmt->bindParam(':data_cadastro', $this->data_cadastro);
+               
+        $stmt->execute();
+        $ultimo = DB::ultimoid();
+        return $ultimo;
+       
 
+    }
     public function findcod($cod) {
+        
         $sql = "SELECT * FROM $this->table WHERE cod = :cod";
         $stmt = DB::prepare($sql);
         $stmt->bindParam(':cod', $cod, PDO::PARAM_INT);
@@ -184,5 +179,18 @@ class Clientes extends Crud {
 
         return $stmt->execute();
     }
-
+    public function dadosform($c){
+        $this->setNome($c['nome']);
+        $this->setCpf($c['cpf']);
+        $this->setNascimento($c['nascimento']);
+        $this->setCivil($c['civil']);
+        $this->setSexo($c['sexo']);
+        $this->setObs($c['Obs']);
+        $this->setEmail($c['email']);
+        $this->setTelefone1($c['residencial']);
+        $this->setTelefone2($c['comercial']);
+        $this->setTelefone3($c['celular']);
+        $this->setData_cadastro(date('Y-m-d H:i:s'));
+        $this->setNascimento(implode("-",array_reverse(explode("/",$c['nascimento']))));
+    }
 }
