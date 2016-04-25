@@ -2,31 +2,25 @@
 
 require_once 'Crud.php';
 
-class Clientes extends Crud {
+class Clinicas extends Crud {
 
-    protected $table = 'paciente';
+    protected $table = 'parceiro';
   
     private $nome;
     private $cpf;
-    private $nascimento;
-    private $civil;
-    private $sexo;
+    private $cnpj;
     private $email;
-    private $pai;
-    private $mae;
-    private $obs;
     private $telefone1;
     private $telefone2;
     private $telefone3;
     private $data_cadastro;
     private $ultimoId;
-    
-    function getUltimoId() {
-        return $this->ultimoId;
+    function getEmail() {
+        return $this->email;
     }
 
-    function setUltimoId($ultimoId) {
-        $this->ultimoId = $ultimoId;
+    function setEmail($email) {
+        $this->email = $email;
     }
 
         function getNome() {
@@ -37,32 +31,8 @@ class Clientes extends Crud {
         return $this->cpf;
     }
 
-    function getNascimento() {
-        return $this->nascimento;
-    }
-
-    function getCivil() {
-        return $this->civil;
-    }
-
-    function getSexo() {
-        return $this->sexo;
-    }
-
-    function getEmail() {
-        return $this->email;
-    }
-
-    function getPai() {
-        return $this->pai;
-    }
-
-    function getMae() {
-        return $this->mae;
-    }
-
-    function getObs() {
-        return $this->obs;
+    function getCnpj() {
+        return $this->cnpj;
     }
 
     function getTelefone1() {
@@ -77,6 +47,14 @@ class Clientes extends Crud {
         return $this->telefone3;
     }
 
+    function getData_cadastro() {
+        return $this->data_cadastro;
+    }
+
+    function getUltimoId() {
+        return $this->ultimoId;
+    }
+
     function setNome($nome) {
         $this->nome = $nome;
     }
@@ -85,32 +63,8 @@ class Clientes extends Crud {
         $this->cpf = $cpf;
     }
 
-    function setNascimento($nascimento) {
-        $this->nascimento = $nascimento;
-    }
-
-    function setCivil($civil) {
-        $this->civil = $civil;
-    }
-
-    function setSexo($sexo) {
-        $this->sexo = $sexo;
-    }
-
-    function setEmail($email) {
-        $this->email = $email;
-    }
-
-    function setPai($pai) {
-        $this->pai = $pai;
-    }
-
-    function setMae($mae) {
-        $this->mae = $mae;
-    }
-
-    function setObs($obs) {
-        $this->obs = $obs;
+    function setCnpj($cnpj) {
+        $this->cnpj = $cnpj;
     }
 
     function setTelefone1($telefone1) {
@@ -125,27 +79,24 @@ class Clientes extends Crud {
         $this->telefone3 = $telefone3;
     }
 
-    function getData_cadastro() {
-        return $this->data_cadastro;
-    }
-
     function setData_cadastro($data_cadastro) {
         $this->data_cadastro = $data_cadastro;
     }
 
-    
+    function setUltimoId($ultimoId) {
+        $this->ultimoId = $ultimoId;
+    }
+
+        
     public function insert() {
         
-        $sql  = 'INSERT INTO '.$this->table.'(`nome`, `cpf`, `nascimento`, `civil`, `sexo`, `email`, `obs`, `telefone1`, `telefone2`, `telefone3`, `data_cadastro`)';
-        $sql .= "VALUES (:nome,:cpf,:nascimento,:civil,:sexo,:email,:obs,:telefone1,:telefone2,:telefone3,:data_cadastro)";
+        $sql  = 'INSERT INTO '.$this->table.'(`nome`, `cnpj`, `cpf`, `email`, `telefone1`, `telefone2`, `telefone3`, `data_cadastro`)';
+        $sql .= "VALUES (:nome,:cnpj,:cpf,:email,:telefone1,:telefone2,:telefone3,:data_cadastro)";
         $stmt = DB::prepare($sql);
         $stmt->bindParam(':nome', $this->nome);
+        $stmt->bindParam(':cnpj', $this->cnpj);
         $stmt->bindParam(':cpf', $this->cpf);
-        $stmt->bindParam(':nascimento', $this->nascimento);
-        $stmt->bindParam(':civil', $this->civil);
-        $stmt->bindParam(':sexo', $this->sexo);
         $stmt->bindParam(':email', $this->email);
-        $stmt->bindParam(':obs', $this->obs);
         $stmt->bindParam(':telefone1', $this->telefone1);
         $stmt->bindParam(':telefone2', $this->telefone2);
         $stmt->bindParam(':telefone3', $this->telefone3);
@@ -182,15 +133,12 @@ class Clientes extends Crud {
     public function dadosform($c){
         $this->setNome($c['nome']);
         $this->setCpf($c['cpf']);
-        $this->setNascimento($c['nascimento']);
-        $this->setCivil($c['civil']);
-        $this->setSexo($c['sexo']);
-        $this->setObs($c['Obs']);
+        $this->setCnpj($c['cpf']);
         $this->setEmail($c['email']);
         $this->setTelefone1($c['residencial']);
         $this->setTelefone2($c['comercial']);
         $this->setTelefone3($c['celular']);
         $this->setData_cadastro(date('Y-m-d H:i:s'));
-        $this->setNascimento(implode("-",array_reverse(explode("/",$c['nascimento']))));
+        
     }
 }

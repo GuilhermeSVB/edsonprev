@@ -12,25 +12,25 @@
     <title>Medprev</title>
 
     <!-- Bootstrap Core CSS -->
-    <link href="../bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../v/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- MetisMenu CSS -->
-    <link href="../bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
+    <link href="../v/bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
 
     <!-- Timeline CSS -->
-    <link href="../dist/css/timeline.css" rel="stylesheet">
+    <link href="../v/dist/css/timeline.css" rel="stylesheet">
 
     <!-- Custom CSS -->
-    <link href="../dist/css/sb-admin-2.css" rel="stylesheet">
+    <link href="../v/dist/css/sb-admin-2.css" rel="stylesheet">
 
     <!-- Morris Charts CSS -->
-    <link href="../bower_components/morrisjs/morris.css" rel="stylesheet">
-    <link href="../bower_components/css/bootstrap-datetimepicker.css" rel="stylesheet"
+    <link href="../v/bower_components/morrisjs/morris.css" rel="stylesheet">
+    <link href="../v/bower_components/css/bootstrap-datetimepicker.css" rel="stylesheet"
     <!-- Custom Fonts -->
-    <link href="../bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <script src="../js/cidades-estados-1.4-utf8.js"></script>
+    <link href="../v/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <script src="../v/js/cidades-estados-1.4-utf8.js"></script>
     
-   <script src="../bower_components/jquery/dist/jquery.min.js"></script>
+   <script src="../v/bower_components/jquery/dist/jquery.min.js"></script>
  
      
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -147,27 +147,19 @@
                                 </li>
                                 <li>
                                     <a href="alluser.php">Todos</a>
-                                </li>
-                                
+                                </li>                
+                            </ul>
+                            <!-- /.nav-second-level -->
+                        </li>
+                          <li>
+                            <a href="#"><i class="fa fa-ambulance"></i> Clinicas<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="#">Third Level <span class="fa arrow"></span></a>
-                                    <ul class="nav nav-third-level">
-                                        <li>
-                                            <a href="#">Third Level Item</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Third Level Item</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Third Level Item</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Third Level Item</a>
-                                        </li>
-                                    </ul>
-                                    <!-- /.nav-third-level -->
+                                    <a href="creatclinicas.php">Cadastrar</a>
                                 </li>
-                                
+                                <li>
+                                    <a href="allclinicas.php">Todos</a>
+                                </li>                
                             </ul>
                             <!-- /.nav-second-level -->
                         </li>

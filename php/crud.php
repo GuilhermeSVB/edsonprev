@@ -1,54 +1,94 @@
 <?php
-require_once './conexao.php';
 
-switch ($_POST["acao"]){
+function __autoload($class_name) {
+    require_once '../C/' . $class_name . '.php';
+}
+
+switch ($_POST["acao"]) {
     case 'cadastrouser':
-        //print_r($_POST);
-    
-        $c['nome'] = mysqli_real_escape_string($conexao,$_POST['nome']);
-        $c['cpf'] = mysqli_real_escape_string($conexao,$_POST['cpf']);
-       $c['nascimento'] = mysqli_real_escape_string($conexao,$_POST['nascimento']);
-        $c['civil'] = mysqli_real_escape_string($conexao,$_POST['civil']);
-        $c['sexo'] = mysqli_real_escape_string($conexao,$_POST['sexo']);
-       //$c['marketing'] = mysqli_real_escape_string($conexao,$_POST['marketing']);
-        $c['obs'] = mysqli_real_escape_string($conexao,$_POST['Obs']);
-        $c['email'] = mysqli_real_escape_string($conexao,$_POST['email']);
-        $c['telefone1'] = mysqli_real_escape_string($conexao,$_POST['residencial']);
-        $c['telefone2'] = mysqli_real_escape_string($conexao,$_POST['comercial']);
-        $c['telefone3'] = mysqli_real_escape_string($conexao,$_POST['celular']);
-        //endereços
-        $d['lagradouro'] = mysqli_real_escape_string($conexao,$_POST['lagradouro']);
-        $d['numero'] = mysqli_real_escape_string($conexao,$_POST['numero']);
-        $d['bairro'] = mysqli_real_escape_string($conexao,$_POST['bairro']);
-        $d['estado'] = mysqli_real_escape_string($conexao,$_POST['estado']);
-        $d['cidade'] = mysqli_real_escape_string($conexao,$_POST['cidade']);
-         
-        if (in_array('', $c)){
-            echo '1';
-        }  else {
-            $c['data_cadastro'] = date('Y-m-d H:i:s');
-            $c['nascimento']= implode("-",array_reverse(explode("/",$c['nascimento'])));
-            $campos = implode(',', array_keys($c));
-            $values = "'".implode("', '", array_values($c))."'";
-            //echo $values;
-            $query = "INSERT INTO paciente (".$campos.") VALUES (".$values.")";
-            $st= mysqli_query($conexao, $query) or die(mysqli_error($conexao));
-            if(!empty($st)){
-                //print_r($d);
-                $id= mysqli_insert_id($conexao);
-                $d['Paciente_idPaciente'] = $id;
-                $campos = utf8_decode(implode(',', array_keys($d)));
-                $values = utf8_decode("'".implode("', '", array_values($d))."'");
-                
-               $query = "INSERT INTO endereco (".$campos.") VALUES (".$values.")";
-               $st= mysqli_query($conexao, $query) or die(mysqli_error($conexao));
-               print_r($c);
-            }else{
-                echo '2';
-            }
+        $c = $_POST;
+        $cliente = new Clientes();
+        $cliente->dadosform($c);
+        $id = ($cliente->insert($c));
+        $endereco = new Enderecos();
+        $endereco->dadosform($c);
+        $endereco->setPaciente_idPaciente($id);
+        if ($endereco->insert()) {
+            $retorno = array(
+                'msg' => $cliente->getNome() . " cadastrado com sucesso",
+                'typo' => 'alert-success'
+            );
+            $json = json_encode($retorno);
+            echo $json;
+        } else {
+            $retorno = array(
+                'msg' => " Erro ao cadastrar",
+                'typo' => 'alert-danger'
+            );
+            $json = json_encode($retorno);
+            echo $json;
         }
         break;
+
+    case 'selecionauser':
+        $id = $_POST["id"];
+        $cliente = new Clientes();
+        $endereco = new Enderecos();
+        $retorno = array(
+            'id' => $id,
+            'nome' => $cliente->find($id)->nome,
+            'cpf' => $cliente->find($id)->cpf,
+            'nascimento' => $cliente->find($id)->nascimento,
+            'civil' => $cliente->find($id)->civil,
+            'sexo' => $cliente->find($id)->sexo,
+            'email' => $cliente->find($id)->email,
+            'obs' => $cliente->find($id)->obs,
+            'telefone1' => $cliente->find($id)->telefone1,
+            'telefone2' => $cliente->find($id)->telefone2,
+            'telefone3' => $cliente->find($id)->telefone3,
+            'data_cadastro' => $cliente->find($id)->data_cadastro,
+            'lagradouro' => $endereco->findPacidente($id)->lagradouro,
+            'numero' => $endereco->findPacidente($id)->numero,
+            'bairro' => $endereco->findPacidente($id)->bairro,
+            'cep' => $endereco->findPacidente($id)->cep,
+            'complemento' => $endereco->findPacidente($id)->complemento,
+            'estado' => $endereco->findPacidente($id)->estado,
+            'cidade' => $endereco->findPacidente($id)->cidade
+        );
+        $json = json_encode($retorno);
+        echo $json;
+        break;
+
+    case "cadastrarclinica":
+        $c = $_POST;
+        $clinica = new Clinicas();
+        $clinica->dadosform($c);
+        $id = ($clinica->insert($c));
+        $endereco = new Enderecos();
+        $endereco->dadosform($c);
+        $endereco->setParceiro_idparceiro($id);
+        if ($endereco->insert()) {
+            $retorno = array(
+                'msg' => $clinica->getNome() . " cadastrada com sucesso",
+                'typo' => 'alert-success'
+            );
+            $json = json_encode($retorno);
+            echo $json;
+        } else {
+            $retorno = array(
+                'msg' => " Erro ao cadastrar",
+                'typo' => 'alert-danger'
+            );
+            $json = json_encode($retorno);
+            echo $json;
+        }
+
+        break;
     default :
-        echo 'Erro ao selecionar ação';
-    
+        $retorno = array(
+            'msg' => "Erro ao selecionar ação",
+            'typo' => 'alert-danger'
+        );
+        $json = json_encode($retorno);
+        echo $json;
 }

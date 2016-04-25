@@ -5,20 +5,29 @@ require_once '../C/' . $class_name . '.php';
   
 
 $c =  $_POST;
-//print_r($c);
 $cliente = new Clientes();
 $cliente->dadosform($c);  
 $id=($cliente->insert($c));
 $endereco = new Enderecos();
 $endereco->dadosform($c);
 $endereco->setPaciente_idPaciente($id);
-
 if($endereco->insert()){
-    echo 'cadastrado';
+    $retorno = array(
+    'msg' => $cliente->getNome()." cadastrado com sucesso",
+    'typo' => 'alert-success'
+     );
+    $json = json_encode($retorno);
+    echo $json;
 }else{
-    echo 'Erro ao cadastrar';
+    $retorno = array(
+    'msg' =>" Erro ao cadastrar",
+    'typo' => 'alert-danger'
+     );
+    $json = json_encode($retorno);
+    echo $json;
+    
 }
-print_r($endereco);
+
     
 
 

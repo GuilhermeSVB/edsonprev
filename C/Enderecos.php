@@ -109,11 +109,11 @@ class Enderecos extends Crud {
         return $stmt->execute();
         
     }
-    public function findcod($cod) {
+    public function findPacidente($id) {
         
-        $sql = "SELECT * FROM $this->table WHERE cod = :cod";
+        $sql = "SELECT * FROM $this->table WHERE Paciente_idPaciente = :id";
         $stmt = DB::prepare($sql);
-        $stmt->bindParam(':cod', $cod, PDO::PARAM_INT);
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetch();
     }
